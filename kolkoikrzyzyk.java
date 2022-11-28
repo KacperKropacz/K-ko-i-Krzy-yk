@@ -3,13 +3,14 @@ import java.util.Scanner;
 public class kolkoikrzyzyk {
     public static void main(String[] args) {
         System.out.println("Witaj w grze, podaj rozmiar planszy (wpisz 3):");
-        int dim = new Scanner(System.in).nextInt();
-        char[][] plansza = new char[dim][dim];
+        //zmienna przechowująca rozmiar planszy
+        int rozmiar = new Scanner(System.in).nextInt();
+        char[][] plansza = new char[rozmiar][rozmiar];
         int movesCounter = 0;
         char obecnyGracz = 'X';
         // jeżeli kod w pętli zmieni wartość w tej zmiennej na true, nie wykona się kolejna iteracja
         boolean won = false;
-        while (movesCounter < dim * dim && !won) {
+        while (movesCounter < rozmiar * rozmiar && !won) {
             printBoard(plansza); // drukuje plansze zeby był widoczny rezultat
             boolean moveWasCorrect = performMove(plansza, obecnyGracz);
             if (moveWasCorrect) {
@@ -35,7 +36,7 @@ public class kolkoikrzyzyk {
     }
 
     private static boolean checkFirstDiagonal(char[][] plansza, char obecnyGracz) {
-        int dim = plansza.length;
+        int rozmiar = plansza.length;
         for (int i = 0; i < dim; i++) {
             if (plansza[i][i] != obecnyGracz) {
                 return false;
@@ -45,7 +46,7 @@ public class kolkoikrzyzyk {
     }
 
     private static boolean checkSecondDiagonal(char[][] plansza, char obecnyGracz) {
-        int dim = plansza.length;
+        int rozmiar = plansza.length;
         for (int i = 0; i < dim; i++) {
             if (plansza[i][dim - i - 1] != obecnyGracz) {
                 return false;
@@ -55,15 +56,15 @@ public class kolkoikrzyzyk {
     }
 
     private static boolean checkWinInRows(char[][] plansza, char obecnyGracz) {
-        int dim = plansza.length;
+        int rozmiar = plansza.length;
         // licznik col będzie sprawdzał w kolejnych iteracjach
         // kolejne kolumny od 0 aż do dim
-        for (int row = 0; row < dim; row++) {
+        for (int row = 0; row < rozmiar; row++) {
             // zakładam optymistycznie, że activePlayer wygrał
             boolean win = true;
             // licznik col będzie przesuwał się po kolejnych
             // wierszach dla danej kolumny col
-            for (int col = 0; col < dim; col++) {
+            for (int col = 0; col < rozmiar; col++) {
                 /* jeżeli trafię na pierwszą komórkę w której
                 nie ma symbolu obecnyGracz, to wiem, że
                 w tej kolumnie nie wygrał, więc ustawiam
@@ -86,15 +87,15 @@ public class kolkoikrzyzyk {
     }
 
     private static boolean checkWinInColumns(char[][] plansza, char obecnyGracz) {
-        int dim = plansza.length;
+        int rozmiar = plansza.length;
         // licznik col będzie sprawdzał w kolejnych interakcjach
         // kolejne kolumny od 0 aż do dim
-        for (int col = 0; col < dim; col++) {
+        for (int col = 0; col < rozmiar; col++) {
             // zakładam optymistycznie, że obecnyGracz wygrał
             boolean win = true;
             // licznik col będzie przesuwał się po kolejnych
             // wierszach dla danej kolumny col
-            for (int row = 0; row < dim; row++) {
+            for (int row = 0; row < rozmiar; row++) {
                 /*  jeżeli trafię na pierwszą komórkę w której
                 nie ma symbolu obecnyGracz, to wiem, że
                 w tej kolumnie nie wygrał, więc ustawiam
@@ -138,16 +139,16 @@ public class kolkoikrzyzyk {
     }
 
     public static void printBoard(char[][] plansza) {
-        int dim = plansza.length;
+        int rozmiar = plansza.length;
         // nagłówki kolumn
         System.out.print("\t");
-        for (int i = 0; i < dim; i++) {
+        for (int i = 0; i < rozmiar; i++) {
             System.out.print(i + "\t");
         }
         System.out.println();
-        for (int row = 0; row < dim; row++) {
+        for (int row = 0; row < rozmiar; row++) {
             System.out.print(row + ":\t");
-            for (int column = 0; column < dim; column++) {
+            for (int column = 0; column < rozmiar; column++) {
                 System.out.print(plansza[row][column] + "\t");
             }
             System.out.println();
