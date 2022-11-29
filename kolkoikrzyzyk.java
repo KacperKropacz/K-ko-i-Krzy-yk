@@ -3,23 +3,27 @@ import java.util.Scanner;
 public class kolkoikrzyzyk {
     public static void main(String[] args) {
         System.out.println("Witaj w grze, podaj rozmiar planszy (wpisz 3):");
-        //zmienna przechowująca rozmiar planszy
+        //przechowuje rozmiar planszy
         int rozmiar = new Scanner(System.in).nextInt();
+        //tablica uzupełniona domyślnymi wartościami
         char[][] plansza = new char[rozmiar][rozmiar];
-        int movesCounter = 0;
+        //licznik ruchów
+        int licznik = 0;
+        //obecny gracz
         char obecnyGracz = 'X';
-        // jeżeli kod w pętli zmieni wartość w tej zmiennej na true, nie wykona się kolejna iteracja
+        // jeżeli kod w pętli zmieni wartość w tej zmiennej na true, nie wykona się kolejna interakcja
         boolean won = false;
-        while (movesCounter < rozmiar * rozmiar && !won) {
+        while (licznik < rozmiar * rozmiar && !won) {
             printBoard(plansza); // drukuje plansze zeby był widoczny rezultat
             boolean moveWasCorrect = performMove(plansza, obecnyGracz);
             if (moveWasCorrect) {
-                // zwiększam licznik ruchów o 1
-                movesCounter++;
-                // sprawdzam czy po tym ruchu ktoś nie wygrał
+                // zwiększa licznik ruchów o 1
+                licznik++;
+                // sprawdza czy po tym ruchu ktoś nie wygrał
                 won = checkWinner(plansza, obecnyGracz);
-                // zmieniam aktywnego gracza na przeciwnego
+                // zmieniam obecnego gracza na przeciwnego
                 obecnyGracz = obecnyGracz == 'X' ? 'O' : 'X';
+                //jeśli ruch wykonany w to samo miejsce co poprzedni gracz 
             } else {
                 System.out.println("Ruch niepoprawny, spróbuj ponownie");
             }
@@ -29,15 +33,18 @@ public class kolkoikrzyzyk {
     }
 
     private static boolean checkWinner(char[][] plansza, char obecnyGracz) {
+        //te dwie metody sprawdzaja wygrana po przekatnej
         return checkFirstDiagonal(plansza, obecnyGracz) ||
                 checkSecondDiagonal(plansza, obecnyGracz) ||
+                //ta metoda sprawdza wygrana w kolumnie
                 checkWinInColumns(plansza, obecnyGracz) ||
+                //ta metoda sprawdza wygrana poziomo
                 checkWinInRows(plansza, obecnyGracz);
     }
 
     private static boolean checkFirstDiagonal(char[][] plansza, char obecnyGracz) {
         int rozmiar = plansza.length;
-        for (int i = 0; i < dim; i++) {
+        for (int i = 0; i < rozmiar; i++) {
             if (plansza[i][i] != obecnyGracz) {
                 return false;
             }
@@ -47,8 +54,8 @@ public class kolkoikrzyzyk {
 
     private static boolean checkSecondDiagonal(char[][] plansza, char obecnyGracz) {
         int rozmiar = plansza.length;
-        for (int i = 0; i < dim; i++) {
-            if (plansza[i][dim - i - 1] != obecnyGracz) {
+        for (int i = 0; i < rozmiar; i++) {
+            if (plansza[i][rozmiar - i - 1] != obecnyGracz) {
                 return false;
             }
         }
@@ -57,18 +64,17 @@ public class kolkoikrzyzyk {
 
     private static boolean checkWinInRows(char[][] plansza, char obecnyGracz) {
         int rozmiar = plansza.length;
-        // licznik col będzie sprawdzał w kolejnych iteracjach
-        // kolejne kolumny od 0 aż do dim
+        // licznik col będzie sprawdzał w kolejnych interakcjach
+        // kolejne kolumny od 0 aż do rozmiar
         for (int row = 0; row < rozmiar; row++) {
-            // zakładam optymistycznie, że activePlayer wygrał
+            // zakłada optymistycznie, że obecnyGracz wygrał
             boolean win = true;
-            // licznik col będzie przesuwał się po kolejnych
-            // wierszach dla danej kolumny col
+            // licznik col będzie przesuwał się po kolejnych wierszach dla danej kolumny col
             for (int col = 0; col < rozmiar; col++) {
-                /* jeżeli trafię na pierwszą komórkę w której
-                nie ma symbolu obecnyGracz, to wiem, że
-                w tej kolumnie nie wygrał, więc ustawiam
-                flagę win na false i przerywam sprawdzanie
+                /*  jeżeli trafi na pierwszą komórkę w której
+                nie ma symbolu obecnyGracz, to wie, że
+                w tej kolumnie nie wygrał, więc ustawia
+                win na false i przerywam sprawdzanie
                 kolejnych komórek */
                 if (plansza[row][col] != obecnyGracz) {
                     win = false;
@@ -76,9 +82,9 @@ public class kolkoikrzyzyk {
                 }
             }
             /* jeżeli po sprawdzeniu danej kolumny
-            flaga win dalej ma wartość true, to znaczy
+            win dalej ma wartość true, to znaczy
             że gracz wygrał w tej kolumnie
-            przerywam więc całą metodę zwracając true */
+            przerywa więc całą metodę zwracając true */
             if (win) {
                 return true;
             }
@@ -89,17 +95,16 @@ public class kolkoikrzyzyk {
     private static boolean checkWinInColumns(char[][] plansza, char obecnyGracz) {
         int rozmiar = plansza.length;
         // licznik col będzie sprawdzał w kolejnych interakcjach
-        // kolejne kolumny od 0 aż do dim
+        // kolejne kolumny od 0 aż do rozmiar
         for (int col = 0; col < rozmiar; col++) {
-            // zakładam optymistycznie, że obecnyGracz wygrał
+            // zakładaa optymistycznie, że obecnyGracz wygrał
             boolean win = true;
-            // licznik col będzie przesuwał się po kolejnych
-            // wierszach dla danej kolumny col
+            // licznik col będzie przesuwał się po kolejnych wierszach dla danej kolumny col
             for (int row = 0; row < rozmiar; row++) {
-                /*  jeżeli trafię na pierwszą komórkę w której
-                nie ma symbolu obecnyGracz, to wiem, że
-                w tej kolumnie nie wygrał, więc ustawiam
-                flagę win na false i przerywam sprawdzanie
+                /*  jeżeli trafi na pierwszą komórkę w której
+                nie ma symbolu obecnyGracz, to wie, że
+                w tej kolumnie nie wygrał, więc ustawia
+                win na false i przerywam sprawdzanie
                 kolejnych komórek */
                 if (plansza[row][col] != obecnyGracz) {
                     win = false;
@@ -107,9 +112,9 @@ public class kolkoikrzyzyk {
                 }
             }
             /* jeżeli po sprawdzeniu danej kolumny
-            flaga win dalej ma wartość true, to znaczy
+            win dalej ma wartość true, to znaczy
             że gracz wygrał w tej kolumnie
-            przerywam więc całą metodę zwracając true */
+            przerywa więc całą metodę zwracając true */
             if (win) {
                 return true;
             }
@@ -126,13 +131,9 @@ public class kolkoikrzyzyk {
         if (plansza[row][col] == 0) { // jeżeli pole jest wolne
             plansza[row][col] = obecnyGracz; // wstaw tam symbol obecnego gracza
 
-            // jako że przeniosłem tę metodę to nie będę już tutaj
-            // modyfikował licznika ruchów ani zmieniał gracza
-            // zrobię to metodzie main
-
             return true; // zwracam true jezeli ruch sie udał
             // jeżeli kod dojdzie do tej linii to znaczy ze się udał
-        } else { // ten else jest opcjonalny, wystarczyloby return false (dlaczego?)
+        } else { // ten else jest opcjonalny, wystarczyloby return false 
             return false; // zwroce false, jeżeli miejsce było zajęte
         }
 
